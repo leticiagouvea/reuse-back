@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model products {
+  id                                        Int         @id(map: "products_pk") @default(autoincrement())
+  userId                                    Int
+  name                                      String
+  image                                     Bytes
+  description                               String
+  users                                     users       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "products_fk0")
+  proposals_productsToproposals_fromProduct proposals[] @relation("productsToproposals_fromProduct")
+  proposals_productsToproposals_toProduct   proposals[] @relation("productsToproposals_toProduct")
+}
+
+model proposals {
+  id                                       Int      @id(map: "proposals_pk") @default(autoincrement())
+  fromUser                                 Int
+  toUser                                   Int
+  fromProduct                              Int
+  toProduct                                Int
+  status                                   Boolean?
+  products_productsToproposals_fromProduct products @relation("productsToproposals_fromProduct", fields: [fromProduct], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "proposals_fk2")
+  users_proposals_fromUserTousers          users    @relation("proposals_fromUserTousers", fields: [fromUser], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "proposals_fk0")
+  products_productsToproposals_toProduct   products @relation("productsToproposals_toProduct", fields: [toProduct], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "proposals_fk3")
+  users_proposals_toUserTousers            users    @relation("proposals_toUserTousers", fields: [toUser], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "proposals_fk1")
+}
+
+model session {
+  id     Int    @id(map: "session_pk") @default(autoincrement())
+  token  String
+  userId Int
+  users  users  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "session_fk0")
+}
+
+model users {
+  id                                  Int         @id(map: "users_pk") @default(autoincrement())
+  email                               String      @unique
+  password                            String
+  username                            String      @unique
+  city                                String
+  state                               String      @db.VarChar(2)
+  cellphone                           String
+  products                            products[]
+  proposals_proposals_fromUserTousers proposals[] @relation("proposals_fromUserTousers")
+  proposals_proposals_toUserTousers   proposals[] @relation("proposals_toUserTousers")
+  session                             session[]
+}
