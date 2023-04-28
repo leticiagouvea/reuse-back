@@ -26,7 +26,7 @@ const signIn = async (params: SignInParams) => {
 
   if (!isPasswordValid) throw requestError("E-mail or password are incorrect");
 
-  const token = jwt.sign({ user: user.id }, process.env.JWT_SECRET);
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
 
   await sessionRepository.create({
     token,
