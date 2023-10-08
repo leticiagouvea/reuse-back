@@ -7,8 +7,19 @@ const create = async (data: Prisma.productsUncheckedCreateInput) => {
   });
 };
 
+const read = async () => {
+  return prisma.products.findMany({
+    include: {
+      users: {
+        select: { username: true }
+      }
+    }
+  });
+};
+
 const productRepository = {
   create,
+  read,
 };
 
 export default productRepository;

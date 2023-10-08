@@ -12,10 +12,17 @@ const createProduct = async ({
   return result;
 };
 
+const readProducts = async (): Promise<products[]> => {
+  const result = await productRepository.read();
+
+  return result;
+};
+
 export type CreateProductParams = Omit<products, "id">
 
 const productService = {
   createProduct,
+  readProducts
 };
 
 export default productService;

@@ -17,3 +17,13 @@ export const postProduct = async (req: AuthenticatedRequest, res: Response) => {
     return res.status(httpStatus.BAD_REQUEST).send(error.message);
   }
 };
+
+export const getProducts = async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const result = await productService.readProducts();
+
+    return res.status(httpStatus.OK).send(result);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).send(error.message);
+  }  
+};
