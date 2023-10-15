@@ -1,8 +1,7 @@
 import express, { Express } from "express";
 import cors from "cors";
 import { loadEnv, connectDb, disconnectDB } from "@/config";
-import { authRouter, userRouter, productRouter } from "@/routers";
-import { proposalRouter } from "./routers/proposal.router";
+import { authRouter, userRouter, productRouter, proposalRouter } from "@/routers";
 
 loadEnv();
 

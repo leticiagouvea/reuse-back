@@ -26,8 +26,15 @@ const createProposal = async ({
   return result;
 };
 
+const readProposals = async (userId: number) => {
+  const result = await proposalRepository.read(userId);
+
+  return result;
+};
+
 const proposalService = {
-  createProposal
+  createProposal,
+  readProposals
 };
 
 export default proposalService;

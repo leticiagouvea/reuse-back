@@ -1,6 +1,5 @@
 import { AuthenticatedRequest } from "@/middlewares/auth-middleware";
 import proposalService from "@/service/proposal-service";
-
 import { Response } from "express";
 import httpStatus from "http-status";
 
@@ -28,4 +27,16 @@ export const postProposal = async (req: AuthenticatedRequest, res: Response) => 
 
     return res.status(httpStatus.BAD_REQUEST).send(error.message);
   }
+};
+
+export const getProposals = async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { userId } = req;
+
+    const result = await proposalService.readProposals(+userId);
+
+    return res.status(httpStatus.OK).send(result);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).send(error.message);
+  }  
 };
