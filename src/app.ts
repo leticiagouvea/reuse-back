@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import cors from "cors";
 import { loadEnv, connectDb, disconnectDB } from "@/config";
 import { authRouter, userRouter, productRouter } from "@/routers";
+import { proposalRouter } from "./routers/proposal.router";
 
 loadEnv();
 
@@ -12,7 +13,8 @@ app
   .get("/status", (_req, res) => res.send("OK!"))
   .use("/sign-up", userRouter)
   .use("/sign-in", authRouter)
-  .use("/products", productRouter);
+  .use("/products", productRouter)
+  .use("/proposals", proposalRouter);
 
 export const init = (): Promise<Express> => {
   connectDb();
