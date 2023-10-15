@@ -1,5 +1,8 @@
+import { requestError } from "@/errors/request-error";
 import productRepository from "@/repositories/product-repository";
 import { products } from "@prisma/client";
+
+export type CreateProductParams = Omit<products, "id">
 
 const createProduct = async ({ 
   name, 
@@ -18,11 +21,18 @@ const readProducts = async (): Promise<products[]> => {
   return result;
 };
 
-export type CreateProductParams = Omit<products, "id">
+const readProductById = async (productId: number): Promise<products> => {
+  const result = await productRepository.readById(productId);
+
+  if (!result) throw requestError("NotFoundError");
+
+  return result;
+};
 
 const productService = {
   createProduct,
-  readProducts
+  readProducts,
+  readProductById
 };
 
 export default productService;

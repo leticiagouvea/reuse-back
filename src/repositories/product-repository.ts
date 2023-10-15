@@ -17,9 +17,18 @@ const read = async () => {
   });
 };
 
+const readById = async (productId: number) => {
+  return prisma.products.findFirst({
+    where: {
+      id: productId,
+    }
+  });
+};
+
 const productRepository = {
   create,
   read,
+  readById
 };
 
 export default productRepository;
